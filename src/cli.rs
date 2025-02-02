@@ -1,8 +1,8 @@
-use clap::{ColorChoice, Command};
-use colored::Colorize;
 use crate::args::{help_arg, text_arg, version_arg};
 use crate::commands;
 use crate::utils;
+use clap::{ColorChoice, Command};
+use colored::Colorize;
 
 pub fn build_cli() -> clap::ArgMatches {
     let version = env!("CARGO_PKG_VERSION");
@@ -35,17 +35,20 @@ pub fn handle_help(matches: &clap::ArgMatches) -> bool {
     matches.contains_id("help")
 }
 
-pub fn handle_main_logic(matches: &clap::ArgMatches, version: &str) {
+pub fn handle_main_logic(matches: &clap::ArgMatches) {
+    let version = env!("CARGO_PKG_VERSION");
+
     match (matches.args_present(), matches.contains_id("text")) {
         (false, _) => {
-            println!("{}", format!("welcome to kou v{}!\nuse -h for more information.", version).magenta());
+            println!(
+                "{}",
+                format!("welcome to kou v{}!\nuse -h for more information.", version).magenta()
+            );
         }
-        (_, true) => {
-            match matches.get_one::<String>("text") {
-                Some(text) => println!("{}", text),
-                None => eprintln!("{}", utils::error_message("the -t flag requires a value.")),
-            }
-        }
+        (_, true) => match matches.get_one::<String>("text") {
+            Some(text) => println!("{}", text),
+            None => eprintln!("{}", utils::error_message("the -t flag requires a value.")),
+        },
         _ => {}
     }
 }
