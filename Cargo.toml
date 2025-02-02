@@ -1,0 +1,12 @@
+[package]
+name = "kou"
+description = "a random CLI that does things."
+version = "0.1.0"
+edition = "2021"
+homepage = "https://github.com/reinacchi/kou"
+keywords = ["cli"]
+license = "MIT"
+
+[dependencies]
+clap = "4.5.27"
+colored = "2.0"
