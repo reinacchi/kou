@@ -1,5 +1,6 @@
-use crate::args::{config_name_arg, help_arg, text_arg, version_arg};
+use crate::args::{help_arg, text_arg, version_arg};
 use crate::commands::{handle_config_command, handle_root_command};
+use crate::subcommands::config_cmd;
 use clap::{ArgMatches, ColorChoice, Command};
 use colored::Colorize;
 
@@ -22,12 +23,7 @@ pub fn build_cli() -> ArgMatches {
         .arg(help_arg())
         .arg(text_arg())
         .arg(version_arg())
-        .subcommand(
-            Command::new("config")
-                .override_usage(format!("{} config <options>", name).green().to_string())
-                .about("configure the preference")
-                .arg(config_name_arg())
-        )
+        .subcommand(config_cmd())
         .get_matches()
 }
 

@@ -1,6 +1,5 @@
 use clap::{Arg, ArgAction};
 
-
 pub fn help_arg() -> Arg {
     Arg::new("help")
     .short('h')
