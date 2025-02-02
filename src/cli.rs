@@ -1,10 +1,9 @@
-use crate::args::{help_arg, text_arg, version_arg};
-use crate::commands;
-use crate::utils;
-use clap::{ColorChoice, Command};
+use crate::args::{config_name_arg, help_arg, text_arg, version_arg};
+use crate::commands::{handle_config_command, handle_root_command};
+use clap::{ArgMatches, ColorChoice, Command};
 use colored::Colorize;
 
-pub fn build_cli() -> clap::ArgMatches {
+pub fn build_cli() -> ArgMatches {
     let version = env!("CARGO_PKG_VERSION");
     let name = env!("CARGO_CRATE_NAME");
     let author_name = "reinacchi"; // this is my command-line interface >:(
@@ -23,32 +22,19 @@ pub fn build_cli() -> clap::ArgMatches {
         .arg(help_arg())
         .arg(text_arg())
         .arg(version_arg())
+        .subcommand(
+            Command::new("config")
+                .override_usage(format!("{} config <options>", name).green().to_string())
+                .about("configure the preference")
+                .arg(config_name_arg())
+        )
         .get_matches()
 }
 
-pub fn handle_help(matches: &clap::ArgMatches) -> bool {
-    if let Some(help_target) = matches.get_one::<String>("help") {
-        commands::show_help_for_command(help_target);
-        return true;
-    }
-
-    matches.contains_id("help")
-}
-
-pub fn handle_main_logic(matches: &clap::ArgMatches) {
-    let version = env!("CARGO_PKG_VERSION");
-
-    match (matches.args_present(), matches.contains_id("text")) {
-        (false, _) => {
-            println!(
-                "{}",
-                format!("welcome to kou v{}!\nuse -h for more information.", version).magenta()
-            );
-        }
-        (_, true) => match matches.get_one::<String>("text") {
-            Some(text) => println!("{}", text),
-            None => eprintln!("{}", utils::error_message("the -t flag requires a value.")),
-        },
-        _ => {}
+pub fn handle_matches(matches: &ArgMatches) {
+    if let Some(("config", sub_matches)) = matches.subcommand() {
+        handle_config_command(sub_matches);
+    } else {
+        handle_root_command(matches);        
     }
 }

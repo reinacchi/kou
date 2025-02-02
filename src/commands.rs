@@ -1,12 +1,26 @@
-pub fn show_help_for_command(help_target: &str) {
-    match help_target {
-        "text" => {
+use clap::ArgMatches;
+use colored::Colorize;
+
+pub fn handle_config_command(matches: &ArgMatches) {
+    if let Some(config_name) = matches.get_one::<String>("name") {
+        println!("name configured to: {}", config_name.green())
+    } else {
+        println!("{}", format!("{}", "run 'help config' for more information.").bright_magenta())
+    }
+}
+
+pub fn handle_root_command(matches: &ArgMatches) {
+    match (matches.args_present(), matches.contains_id("text")) {
+        (false, _) => {
             println!(
-                "usage: kou -t <TEXT>\n\nprint the given text.\n\nexample:\n  kou -t \"Hello, world!\""
+                "{}",
+                format!("welcome to kou v{}!\nuse -h for more information.", env!("CARGO_PKG_VERSION")).magenta()
             );
         }
-        _ => {
-            eprintln!("error: unknown command '{}'. Use 'kou -h' for a list of commands.", help_target);
-        }
+        (_, true) => match matches.get_one::<String>("text") {
+            Some(text) => println!("{}", text),
+            None => {}
+        },
+        _ => {}
     }
 }

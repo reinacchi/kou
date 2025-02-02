@@ -1,5 +1,6 @@
 use clap::{Arg, ArgAction};
 
+
 pub fn help_arg() -> Arg {
     Arg::new("help")
     .short('h')
@@ -24,4 +25,13 @@ pub fn version_arg() -> Arg {
         .long("version")
         .help("print kou's version")
         .action(ArgAction::Version)
+}
+
+pub fn config_name_arg() -> Arg {
+    Arg::new("name")
+        .long("name")
+        .help("the name of this user")
+        .value_name("name")
+        .num_args(1)
+        .required(false)
 }
