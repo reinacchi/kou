@@ -30,8 +30,15 @@ pub fn config_name_arg() -> Arg {
     Arg::new("name")
         .short('n')
         .long("name")
-        .help("the name of this user")
+        .help("configure the name of this user")
         .value_name("name")
         .num_args(1)
         .required(false)
+}
+
+pub fn config_remove_name_arg() -> Arg {
+    Arg::new("remove-name")
+        .long("remove-name")
+        .help("remove the name of this user")
+        .action(ArgAction::SetTrue)
 }
