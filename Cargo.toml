@@ -8,5 +8,6 @@ keywords = ["cli"]
 license = "MIT"
 
 [dependencies]
+chromoe-db = "0.1.1"
 clap = "4.5.27"
 colored = "2.0"
