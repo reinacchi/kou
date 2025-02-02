@@ -1,6 +1,7 @@
 use crate::args::{help_arg, text_arg, version_arg};
 use crate::commands::{handle_config_command, handle_root_command};
 use crate::subcommands::config_cmd;
+use chromoe_db::driver::sqlite_driver::SQLiteDriver;
 use clap::{ArgMatches, ColorChoice, Command};
 use colored::Colorize;
 
@@ -27,9 +28,9 @@ pub fn build_cli() -> ArgMatches {
         .get_matches()
 }
 
-pub fn handle_matches(matches: &ArgMatches) {
+pub fn handle_matches(matches: &ArgMatches, driver: SQLiteDriver) {
     if let Some(("config", sub_matches)) = matches.subcommand() {
-        handle_config_command(sub_matches);
+        handle_config_command(sub_matches, driver);
     } else {
         handle_root_command(matches);        
     }

@@ -28,6 +28,7 @@ pub fn version_arg() -> Arg {
 
 pub fn config_name_arg() -> Arg {
     Arg::new("name")
+        .short('n')
         .long("name")
         .help("the name of this user")
         .value_name("name")
