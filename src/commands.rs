@@ -38,7 +38,7 @@ pub fn handle_root_command(matches: &ArgMatches) {
                     "welcome to kou v{}!\nuse -h for more information",
                     env!("CARGO_PKG_VERSION")
                 )
-                .magenta()
+                .bright_magenta()
             );
         }
         (_, true) => match matches.get_one::<String>("text") {

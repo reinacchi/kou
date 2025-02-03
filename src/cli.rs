@@ -11,7 +11,7 @@ pub fn build_cli() -> ArgMatches {
     let author_name = "reinacchi"; // this is my command-line interface >:(
 
     Command::new(name)
-        .about("a random CLI that does things")
+        .about("a random command-line interface that does things")
         .author(author_name)
         .override_usage(format!("{} <options> <commands>", name).green().to_string())
         .version(version)
