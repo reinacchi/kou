@@ -1,6 +1,6 @@
-use crate::args::{help_arg, text_arg, version_arg};
-use crate::commands::{handle_config_command, handle_root_command, handle_fetch_command};
-use crate::subcommands::{config_cmd, fetch_cmd};
+use crate::args::Args;
+use crate::commands::Commands;
+use crate::subcommands::SubCommands;
 use chromoe_db::driver::sqlite_driver::SQLiteDriver;
 use clap::{ArgMatches, ColorChoice, Command};
 use colored::Colorize;
@@ -21,20 +21,20 @@ pub fn build_cli() -> ArgMatches {
         .after_help(format!("made by {}", author_name.bright_cyan()))
         .disable_version_flag(true)
         .disable_help_flag(true)
-        .arg(help_arg())
-        .arg(text_arg())
-        .arg(version_arg())
-        .subcommand(config_cmd())
-        .subcommand(fetch_cmd())
+        .arg(Args::help_arg())
+        .arg(Args::text_arg())
+        .arg(Args::version_arg())
+        .subcommand(SubCommands::config_cmd())
+        .subcommand(SubCommands::fetch_cmd())
         .get_matches()
 }
 
 pub fn handle_matches(matches: &ArgMatches, driver: SQLiteDriver) {
     if let Some(("config", sub_matches)) = matches.subcommand() {
-        handle_config_command(sub_matches, driver);
+        Commands::handle_config_command(sub_matches, driver);
     } else if let Some(("fetch", _)) = matches.subcommand() {
-        handle_fetch_command();
+        Commands::handle_fetch_command();
     } else {
-        handle_root_command(matches);        
+        Commands::handle_root_command(matches);        
     }
 }
