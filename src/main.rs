@@ -5,6 +5,7 @@ mod args;
 mod cli;
 mod commands;
 mod subcommands;
+mod utils;
 
 fn main() {
     let matches = cli::build_cli();

@@ -10,3 +10,8 @@ pub fn config_cmd() -> Command {
         .arg(config_name_arg())
         .arg(config_remove_name_arg())
 }
+
+pub fn fetch_cmd() -> Command {
+    Command::new("fetch")
+        .about("fetch this software")
+}
